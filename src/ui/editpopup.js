@@ -30,9 +30,9 @@ export default class EditPopup extends View {
 
         this.tbName = new InputTextView(locale);
         this.tbName.placeholder = 'Bookmark Name';
-        this.saveButtonView = this._createButton(locale.t('Save'), checkIcon, 'ck-bookmark-edit-btnSave'); // ck-button-save
+        this.saveButtonView = this._createButton(locale.t('Save'), checkIcon, 'ck-bookmark-edit-btnSave');
         this.saveButtonView.type = 'submit';
-        this.cancelButtonView = this._createButton(locale.t('Cancel'), cancelIcon, 'ck-bookmark-edit-btnCancel', 'cancel'); // ck-button-cancel
+        this.cancelButtonView = this._createButton(locale.t('Cancel'), cancelIcon, 'ck-bookmark-edit-btnCancel', 'cancel');
 
         this.tbName.extendTemplate({
             attributes: {
