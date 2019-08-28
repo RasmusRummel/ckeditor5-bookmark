@@ -1,4 +1,4 @@
-﻿import Plugin from '@ckeditor/ckeditor5-core/src/plugin';
+import Plugin from '@ckeditor/ckeditor5-core/src/plugin';
 import ButtonView from '@ckeditor/ckeditor5-ui/src/button/buttonview';
 
 import ClickObserver from '@ckeditor/ckeditor5-engine/src/view/observer/clickobserver';
