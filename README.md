@@ -2,7 +2,7 @@
 
 ckeditor5-bookmark is a 3. party free bookmark plugin for CKEditor 5. It solves the problem of creating bookmarks, &lt;a name="bookmark-name"&gt;&lt;/a&gt;, in bigger documents. You can then use the offical CKEditor 5 Link plugin to create links to your bookmarks : &lt;a href=#bookmark-name"&gt;Bookmark Name&lt;/a&gt;
 
-![CKEditor 5 Bookmark plugin](https://dev.topiqs.online/images/external/ckbookmark.png?raw=true "CKEditor 5 Bookmark plugin")
+![image](https://user-images.githubusercontent.com/15994829/64579144-fc767200-d3ab-11e9-9f7f-faf52196746d.png)
 
 There is an in-dept tutorial, how to build a CKEditor 5 bookmark plugin, based on the ckeditor5-bookmark plugin here : [CKBookmark - a CKEditor 5 plugin tutorial](https://topiqs.online/Home/Index/1169).
 
