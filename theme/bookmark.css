@@ -1,4 +1,4 @@
-.bookmark {
+.ck-bookmark {
     width: 16px;
     height: 16px;
     display: inline-block;
@@ -26,10 +26,18 @@
     margin-left: 6px !important;
 }
 
+/*.ck-bookmark-view-btnEdit:hover {
+    color: #008a00 !important;
+}*/
+
 .ck-bookmark-view-btnDelete {
     color: #db3700 !important;
     margin-left: 6px !important;
 }
+
+/*.ck-bookmark-view-btnDelete:hover {
+    color: #db3700 !important;
+}*/
 
 .ck-bookmark-edit {
     display: flex;
@@ -39,7 +47,7 @@
 }
 
 .ck-bookmark-edit-tbName {
-    width: 50px !important;
+    width: 50px !important; /*width cannot be set to less than 230px */
 }
 
 .ck-bookmark-edit-btnSave {
