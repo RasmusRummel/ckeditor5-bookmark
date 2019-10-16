@@ -63,7 +63,7 @@ export default class BookmarkEditing extends Plugin {
             model: 'bookmark',
             view: (modelItem, viewWriter) => {
                 const name = modelItem.getAttribute('name');
-                const aBookmark = viewWriter.createContainerElement('a', { name, class: 'bookmark' });
+                const aBookmark = viewWriter.createContainerElement('span', { name, class: 'ck-bookmark' });
                 viewWriter.setCustomProperty('bookmarkName', true, aBookmark);
                 return toWidget(aBookmark, viewWriter);
             }
