@@ -1,6 +1,6 @@
 {
   "name": "ckeditor5-bookmark",
-  "version": "1.1.0",
+  "version": "1.1.1",
   "description": "Bookmark Plugin for CKEditor 5.",
   "keywords": [
     "ckeditor 5",
@@ -26,4 +26,3 @@
     "@ckeditor/ckeditor5-utils": "22.0.0"
   }
 }
-
