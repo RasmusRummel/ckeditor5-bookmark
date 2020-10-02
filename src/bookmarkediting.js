@@ -1,10 +1,10 @@
 import Plugin from '@ckeditor/ckeditor5-core/src/plugin';
-import { toWidget } from '@ckeditor/ckeditor5-widget/src/utils';
+
+import { toWidget, viewToModelPositionOutsideModelElement } from '@ckeditor/ckeditor5-widget/src/utils';
 import Widget from '@ckeditor/ckeditor5-widget/src/widget';
 
 import BookmarkCommand from './bookmarkcommand';
 import BookmarkDeleteCommand from './bookmarkdeletecommand';
-
 import theme from '../theme/bookmark.css';
 
 export default class BookmarkEditing extends Plugin {
@@ -25,9 +25,13 @@ export default class BookmarkEditing extends Plugin {
 
         schema.register('bookmark', {
             allowWhere: '$text',
+
             isLimit: true,
+
             isInline: true,
+
             isObject: true,
+
             allowAttributes: ['name', 'class']
         });
     }
@@ -52,7 +56,7 @@ export default class BookmarkEditing extends Plugin {
                     name: true
                 }
             },
-            model: (viewElement, modelWriter) => {
+            model: (viewElement, { writer: modelWriter }) => {
                 const name = viewElement.getAttribute('name');
                 var bookmark = modelWriter.createElement('bookmark', { name });
                 return bookmark;
@@ -61,9 +65,11 @@ export default class BookmarkEditing extends Plugin {
 
         conversion.for('editingDowncast').elementToElement({
             model: 'bookmark',
-            view: (modelItem, viewWriter) => {
+            view: (modelItem, { writer: viewWriter }) => {
                 const name = modelItem.getAttribute('name');
+
                 const aBookmark = viewWriter.createContainerElement('span', { name, class: 'ck-bookmark' });
+
                 viewWriter.setCustomProperty('bookmarkName', true, aBookmark);
                 return toWidget(aBookmark, viewWriter);
             }
@@ -71,7 +77,7 @@ export default class BookmarkEditing extends Plugin {
 
         conversion.for('dataDowncast').elementToElement({
             model: 'bookmark',
-            view: (modelItem, viewWriter) => {
+            view: (modelItem, { writer: viewWriter }) => {
                 const name = modelItem.getAttribute('name');
                 const aBookmark = viewWriter.createAttributeElement('a', { name });
                 return aBookmark;
