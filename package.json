@@ -1,7 +1,7 @@
 {
   "name": "ckeditor5-bookmark",
-  "version": "1.0.3",
-  "description": "Bookmark Plugin for CKEditor5.",
+  "version": "1.1.0",
+  "description": "Bookmark Plugin for CKEditor 5.",
   "keywords": [
     "ckeditor 5",
     "bookmark",
@@ -20,9 +20,10 @@
   "author": "Rasmus Rummel",
   "license": "MIT",
   "dependencies": {
-    "@ckeditor/ckeditor5-core": "^12.3.0",
-    "@ckeditor/ckeditor5-widget": "^11.1.0",
-    "@ckeditor/ckeditor5-ui": "^14.0.0",
-    "@ckeditor/ckeditor5-utils": "^14.0.0"
+    "@ckeditor/ckeditor5-core": "22.0.0",
+    "@ckeditor/ckeditor5-widget": "22.0.0",
+    "@ckeditor/ckeditor5-ui": "22.0.0",
+    "@ckeditor/ckeditor5-utils": "22.0.0"
   }
 }
+
