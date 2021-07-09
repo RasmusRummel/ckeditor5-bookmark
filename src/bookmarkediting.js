@@ -1,10 +1,13 @@
 import Plugin from '@ckeditor/ckeditor5-core/src/plugin';
 
-import { toWidget, viewToModelPositionOutsideModelElement } from '@ckeditor/ckeditor5-widget/src/utils';
+import { viewToModelPositionOutsideModelElement } from '@ckeditor/ckeditor5-widget/src/utils';
+import Position from '@ckeditor/ckeditor5-engine/src/model/position';
+
+import { toWidget } from '@ckeditor/ckeditor5-widget/src/utils';
 import Widget from '@ckeditor/ckeditor5-widget/src/widget';
 
-import BookmarkCommand from './bookmarkcommand';
-import BookmarkDeleteCommand from './bookmarkdeletecommand';
+import InsertBookmark from './bookmarkcommand';
+import DeleteBookmark from './bookmarkdeletecommand';
 import theme from '../theme/bookmark.css';
 
 export default class BookmarkEditing extends Plugin {
@@ -13,26 +16,75 @@ export default class BookmarkEditing extends Plugin {
     }
 
     init() {
+
+        console.log("BookmarkEditing#init");
+
         this._defineSchema();
         this._defineConverters();
 
-        this.editor.commands.add('bookmark', new BookmarkCommand(this.editor));
-        this.editor.commands.add('deleteBookmark', new BookmarkDeleteCommand(this.editor));
+        this.editor.commands.add('insertBookmark', new InsertBookmark(this.editor));
+        this.editor.commands.add('deleteBookmark', new DeleteBookmark(this.editor));
     }
 
     _defineSchema() {
         const schema = this.editor.model.schema;
 
         schema.register('bookmark', {
+
             allowWhere: '$text',
 
-            isLimit: true,
-
             isInline: true,
+            isLimit: true,
 
             isObject: true,
 
             allowAttributes: ['name', 'class']
+
+        });
+
+    }
+
+    _defineConvertersTest1() {
+        const conversion = this.editor.conversion;
+
+        conversion.for('editingDowncast').elementToElement({
+
+            model: 'bookmark',
+
+            view: (modelItem, { writer: viewWriter }) => {
+
+                const aBookmark = viewWriter.createContainerElement('span');
+
+                var txtBookmark = viewWriter.createText('BOOKMARK');
+
+                viewWriter.insert(viewWriter.createPositionAt(aBookmark, 0), txtBookmark);
+
+                viewWriter.setCustomProperty('bookmarkName', true, aBookmark);
+
+                return aBookmark;
+
+            }
+
+        });
+    }
+
+    _defineConvertersTest2() {
+        const conversion = this.editor.conversion;
+
+        conversion.for('editingDowncast').elementToElement({
+            model: 'bookmark',
+            view: (modelItem, { writer: viewWriter }) => {
+                const aBookmark = viewWriter.createContainerElement('span');
+
+                var txtBookmark = viewWriter.createText('BOOKMARK');
+
+                viewWriter.insert(viewWriter.createPositionAt(aBookmark, 0), txtBookmark);
+
+                viewWriter.setCustomProperty('bookmarkName', true, aBookmark);
+
+                return toWidget(aBookmark, viewWriter);
+
+            }
         });
     }
 
@@ -67,9 +119,7 @@ export default class BookmarkEditing extends Plugin {
             model: 'bookmark',
             view: (modelItem, { writer: viewWriter }) => {
                 const name = modelItem.getAttribute('name');
-
                 const aBookmark = viewWriter.createContainerElement('span', { name, class: 'ck-bookmark' });
-
                 viewWriter.setCustomProperty('bookmarkName', true, aBookmark);
                 return toWidget(aBookmark, viewWriter);
             }
