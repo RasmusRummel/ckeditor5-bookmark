@@ -7,56 +7,74 @@ import clickOutsideHandler from '@ckeditor/ckeditor5-ui/src/bindings/clickoutsid
 
 import ViewPopup from './ui/viewpopup';
 import EditPopup from './ui/editpopup';
+
 import bookmarkIcon from '../theme/icons/bookmark.svg';
 
-export default class LinkUI extends Plugin {
-    static get requires() {
-        return [ContextualBalloon];
-    }
-
-    static get pluginName() {
-        return 'BookmarkUI';
-    }
-
+export default class BookmarkUI extends Plugin {
     init() {
         const editor = this.editor;
-
-        this._balloon = editor.plugins.get(ContextualBalloon); // https://ckeditor.com/docs/ckeditor5/latest/api/module_ui_panel_balloon_contextualballoon-ContextualBalloon.html
-
-        editor.editing.view.addObserver(ClickObserver);
-
-        this._viewPopup = this._createViewPopup();
-        this._editPopup = this._createEditPopup();
+        const t = editor.t;
 
         editor.ui.componentFactory.add('bookmark', locale => {
             const btn = new ButtonView(locale);
             btn.set({
-                label: editor.t('Bookmark'),
+                label: t('Bookmark'),
                 withText: false,
                 tooltip: true,
                 icon: bookmarkIcon
             });
 
-            const bookmarkCommand = editor.commands.get('bookmark');
+            const bookmarkCommand = editor.commands.get('insertBookmark');
             btn.bind('isEnabled').to(bookmarkCommand, 'isEnabled');
             btn.bind('isOn').to(bookmarkCommand, 'isBookmark');
 
             this.listenTo(btn, 'execute', () => {
-                this.editor.execute('bookmark');
+                editor.execute('insertBookmark');
                 this._showUI();
             });
 
             return btn;
         });
 
+        this._balloon = editor.plugins.get(ContextualBalloon);
+
+        this._editPopup = this._createEditPopup();
+        this._viewPopup = this._createViewPopup();
+
+        editor.editing.view.addObserver(ClickObserver);
         this._enableUserBalloonInteractions();
+    }
+
+    _createEditPopup() {
+        const editor = this.editor;
+        const editPopup = new EditPopup(editor.locale);
+
+        const command = editor.commands.get('insertBookmark');
+        editPopup.tbName.bind('value').to(command, 'value');
+
+        editPopup.keystrokes.set('Esc', (data, cancel) => {
+            this._hideUI();
+            cancel();
+        });
+
+        this.listenTo(editPopup, 'submit', () => {
+            const bookmarkName = editPopup.tbName.element.value;
+            editor.execute('insertBookmark', bookmarkName);
+            this._hideUI();
+        });
+
+        this.listenTo(editPopup, 'cancel', () => {
+            this._hideUI();
+        });
+
+        return editPopup;
     }
 
     _createViewPopup() {
         const editor = this.editor;
         const viewPopup = new ViewPopup(editor.locale)
 
-        const command = editor.commands.get('bookmark');
+        const command = editor.commands.get('insertBookmark');
         viewPopup.lblName.bind('text').to(command, 'value');
 
         this.listenTo(viewPopup, 'edit', () => {
@@ -82,31 +100,6 @@ export default class LinkUI extends Plugin {
         return viewPopup;
     }
 
-    _createEditPopup() {
-        const editor = this.editor;
-        const editPopup = new EditPopup(editor.locale);
-
-        const command = editor.commands.get('bookmark');
-        editPopup.tbName.bind('value').to(command, 'value');
-
-        editPopup.keystrokes.set('Esc', (data, cancel) => {
-            this._hideUI();
-            cancel();
-        });
-
-        this.listenTo(editPopup, 'submit', () => {
-            const bookmarkName = editPopup.tbName.element.value;
-            editor.execute('bookmark', bookmarkName);
-            this._hideUI();
-        });
-
-        this.listenTo(editPopup, 'cancel', () => {
-            this._hideUI();
-        });
-
-        return editPopup;
-    }
-
     _enableUserBalloonInteractions() {
         const viewDocument = this.editor.editing.view.document;
 
@@ -114,13 +107,6 @@ export default class LinkUI extends Plugin {
             const elmBookmark = this._getSelectedBookmarkElement();
             if (elmBookmark) {
                 this._showUI();
-            }
-        });
-
-        this.editor.keystrokes.set('Esc', (data, cancel) => {
-            if (this._balloon.hasView(this._viewPopup) || this._balloon.hasView(this._editPopup)) {
-                this._hideUI();
-                cancel();
             }
         });
 
@@ -147,6 +133,7 @@ export default class LinkUI extends Plugin {
 
     _showUI() {
         const editor = this.editor;
+        const command = editor.commands.get('insertBookmark');
 
         const elmBookmark = this._getSelectedBookmarkElement();
         if (!elmBookmark) {
@@ -155,10 +142,12 @@ export default class LinkUI extends Plugin {
 
         const bookmarkName = elmBookmark.getAttribute('name');
         if (bookmarkName) {
+            console.log("_showUI activating showViewPopup(this)");
             showViewPopup(this);
         }
         else {
-            showEditPopup(this);
+            console.log("_showUI activating showEditPopup(this)");
+            showEditPopup (this);
         }
 
         function showViewPopup(linkUI) {
@@ -175,9 +164,9 @@ export default class LinkUI extends Plugin {
                 return;
             }
 
-            linkUI._balloon.add({ // https://ckeditor.com/docs/ckeditor5/latest/api/module_ui_panel_balloon_contextualballoon-ContextualBalloon.html#function-add
+            linkUI._balloon.add({
                 view: linkUI._editPopup,
-                position: linkUI._getBalloonPositionData() // returns a DOM range
+                position: linkUI._getBalloonPositionData()
             });
 
             linkUI._editPopup.tbName.select();
@@ -185,27 +174,16 @@ export default class LinkUI extends Plugin {
     }
 
     _hideUI() {
-        if (this._balloon.hasView(this._viewPopup)) {
-            this._balloon.remove(this._viewPopup);
-        }
-
         if (this._balloon.hasView(this._editPopup)) {
             this._editPopup.saveButtonView.focus();
             this._balloon.remove(this._editPopup);
         }
 
-        this.editor.editing.view.focus();
-    }
-
-    _addPopupViewDELETE() {
-        if (this._balloon.hasView(this._editPopup)) {
-            return;
+        if (this._balloon.hasView(this._viewPopup)) {
+            this._balloon.remove(this._viewPopup);
         }
 
-        this._balloon.add({
-            view: this._editPopup,
-            position: this._getBalloonPositionData()
-        });
+        this.editor.editing.view.focus();
     }
 
     _getBalloonPositionData() {
