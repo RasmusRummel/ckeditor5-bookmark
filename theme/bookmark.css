@@ -5,20 +5,31 @@
     background-image: url("data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCA1MTIgNTEyIj48cGF0aCBkPSJNNDcyLjUgMGMtNyAwLTE0LjMgMS41LTIxLjIgNC42LTUwLjUgMjIuNy04Ny44IDMwLjMtMTE5LjEgMzAuM0MyNjYuMSAzNC45IDIyNy43LjQgMTUxLjQuNGMtMjguNCAwLTYyLjIgNC45LTEwNC41IDE4QzQ0LjMgNy45IDM1LjMgMCAyNCAwIDEwLjcgMCAwIDEwLjcgMCAyNHY0NzZjMCA2LjYgNS40IDEyIDEyIDEyaDI0YzYuNiAwIDEyLTUuNCAxMi0xMlYzOTguMWMzNy4zLTExLjggNjkuNi0xNi41IDk4LjUtMTYuNSA4MS4yIDAgMTM3LjggMzQuNCAyMTkuMSAzNC40IDM1LjMgMCA3NS4xLTYuNSAxMjMuNy0yNSAxNC01LjQgMjIuOC0xNy45IDIyLjgtMzEuMlYzMy40QzUxMiAxMyA0OTMuNCAwIDQ3Mi41IDB6TTQ2NCAzNDkuMWMtMzUuMyAxMi43LTY3LjYgMTguOS05OC41IDE4LjktNzUuNSAwLTEyOC41LTM0LjQtMjE5LjEtMzQuNC0zMS45IDAtNjQuNSA0LjctOTguNSAxNC4yVjY4LjVDODcuNyA1NSAxMjEuNyA0OC40IDE1MS40IDQ4LjRjNjYuMyAwIDEwNS4yIDM0LjUgMTgwLjggMzQuNSA0MC4zIDAgODIuMy0xMCAxMzEuOC0zMS41djI5Ny43eiIvPjwvc3ZnPg==");
 }
 
+.ck-bookmark-edit-tbName {
+    min-width: 250px !important;
+    width: 250px !important;
+}
+
+.ck-bookmark-edit-btnSave {
+    color: #008a00 !important;
+    margin-left: 6px !important;
+}
+
+.ck-bookmark-edit-btnCancel {
+    color: #db3700 !important;
+    margin-left: 6px !important;
+}
+
 .ck-bookmark-view {
     display: flex;
     flex-direction: row;
     flex-wrap: nowrap;
     align-items: center;
-    padding: 10px!important;
+    padding: 10px !important;
 }
 
 .ck-bookmark-view-lblName {
-    font-weight:normal!important;
-}
-
-.ck-bookmark-view-button {
-    margin-left: 18px;
+    font-weight: normal !important;
 }
 
 .ck-bookmark-view-btnEdit {
@@ -26,36 +37,8 @@
     margin-left: 6px !important;
 }
 
-/*.ck-bookmark-view-btnEdit:hover {
-    color: #008a00 !important;
-}*/
-
 .ck-bookmark-view-btnDelete {
     color: #db3700 !important;
     margin-left: 6px !important;
 }
 
-/*.ck-bookmark-view-btnDelete:hover {
-    color: #db3700 !important;
-}*/
-
-.ck-bookmark-edit {
-    display: flex;
-    flex-direction: row;
-    flex-wrap: nowrap;
-    margin: 6px !important;
-}
-
-.ck-bookmark-edit-tbName {
-    width: 50px !important; /*width cannot be set to less than 230px */
-}
-
-.ck-bookmark-edit-btnSave {
-    color: #008a00!important;
-    margin-left: 6px!important;
-}
-
-.ck-bookmark-edit-btnCancel {
-    color: #db3700 !important;
-    margin-left: 6px !important;
-}
