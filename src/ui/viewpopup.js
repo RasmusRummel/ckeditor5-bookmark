@@ -1,10 +1,10 @@
-﻿import View from '@ckeditor/ckeditor5-ui/src/view';
+import View from '@ckeditor/ckeditor5-ui/src/view';
 import ButtonView from '@ckeditor/ckeditor5-ui/src/button/buttonview';
 import LabelView from '@ckeditor/ckeditor5-ui/src/label/labelview';
 import KeystrokeHandler from '@ckeditor/ckeditor5-utils/src/keystrokehandler';
 
 import pencilIcon from '@ckeditor/ckeditor5-core/theme/icons/pencil.svg';
-import deleteIcon from '@ckeditor/ckeditor5-core/theme/icons/cancel.svg';
+import deleteIcon from '../../theme/icons/delete.svg';
 
 export default class ViewPopup extends View {
     constructor(locale) {
